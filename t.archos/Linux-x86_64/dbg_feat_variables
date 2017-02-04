@@ -1,0 +1,48 @@
+#!/bin/sh
+[ -e tests.sh ] && . ./tests.sh || . ../tests.sh
+
+NAME='dbg inmem $m #1'
+FILE='/bin/true'
+BROKEN=
+ARGS='-d '
+CMDS='wa mov rdx,0x1234; s +7; wa mov [rdx],0x1; s-7; dso; ?v $m;'
+EXPECT="0x1234
+"
+run_test
+
+
+NAME='dbg inmem $m #2'
+FILE='/bin/true'
+BROKEN=
+ARGS='-d '
+CMDS='wa mov rdx,0x1234; s +7; wa mov dword [rdx],0x1; s-7; dso; ?v $m;'
+EXPECT="0x1234
+"
+run_test
+
+NAME='dbg inmem $m #3'
+FILE='/bin/true'
+BROKEN=
+ARGS='-d '
+CMDS='wa mov rdx,0x1234; s +7; wa mov qword [rdx],0x1; s-7; dso; ?v $m;'
+EXPECT="0x1234
+"
+run_test
+
+NAME='dbg inmem $m #4'
+FILE='/bin/true'
+BROKEN=
+ARGS='-d '
+CMDS='wa mov rdx,0x1234; s +7; wa mov byte [rdx],0x1; s-7; dso; ?v $m;'
+EXPECT="0x1234
+"
+run_test
+
+NAME='dbg inmem $v #1'
+FILE='/bin/true'
+BROKEN=
+ARGS='-d '
+CMDS='wa push rbp; s +7; wa mov rbp,esp wa mov [rdx],0x1234; s-7; dso; ?v $v;'
+EXPECT="0x1234
+"
+run_test

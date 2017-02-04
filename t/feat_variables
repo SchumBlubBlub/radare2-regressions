@@ -256,3 +256,71 @@ EXPECT='0xffffffffffffffff
 0xffffffffffffffff
 '
 run_test
+
+
+NAME='$m #1'
+FILE=-
+BROKEN=
+ARGS=
+CMDS='wa mov eax,[0x00001234]; ?v $m;'
+EXPECT="0x1234
+"
+run_test
+
+NAME='$m #2'
+FILE=-
+BROKEN=
+ARGS=
+CMDS='wa mov eax, dword [0x00001234]; ?v $m;'
+EXPECT="0x1234
+"
+run_test
+
+NAME='$m #3'
+FILE=-
+BROKEN=
+ARGS=
+CMDS='wx 0fb60534120000; ?v $m;'
+EXPECT="0x123b
+"
+run_test
+
+NAME='$v #1'
+FILE=-
+BROKEN=
+ARGS=
+CMDS='wa mov eax, 0x1234; ?v $v;'
+EXPECT="0x1234
+"
+run_test
+
+NAME='$v #2'
+FILE=-
+BROKEN=
+ARGS=
+CMDS='wa mov [eax], 0x1234; ?v $v;'
+EXPECT="0x1234
+"
+run_test
+
+NAME='$v #3'
+FILE=-
+BROKEN=
+ARGS=
+CMDS='wa mov eax,[0x00001234]; ?v $v;'
+NOT_EXPECT=1
+EXPECT="0x1234
+"
+run_test
+
+# #6690 fix cause breakage
+NAME='$m #4 (no ptr for reg mem ref in static anal)'
+FILE=-
+BROKEN=
+ARGS=
+CMDS='wa mov [eax], 0x00001234; ?v $m;'
+BROKEN=1
+NOT_EXPECT=1
+EXPECT="0x1234
+"
+run_test
